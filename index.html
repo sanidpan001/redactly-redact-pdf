@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redactly — Redact PDF Online Free: Permanently Black Out Text & Data</title>
+<meta name="description" content="Free true-redaction tool for PDFs. Draw black boxes over sensitive content and the pages are re-rendered, so the hidden text is genuinely gone — with a verify mode to prove it.">
+<link rel="canonical" href="https://redactly.fixoraa.tech/">
+<meta property="og:title" content="Redactly — Redact PDF Online Free: Permanently Black Out Text & Data">
+<meta property="og:description" content="Free true-redaction tool for PDFs. Draw black boxes over sensitive content and the pages are re-rendered, so the hidden text is genuinely gone — with a verify mode to prove it.">
+<meta property="og:url" content="https://redactly.fixoraa.tech/">
+<meta property="og:type" content="website">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+<script>pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';</script>
+<style>
+:root{--pri:#111827;--acc:#EF4444;--bgc:#F9FAFB}
+body{background:var(--bgc);font-family:'Segoe UI',system-ui,sans-serif}
+.pri{background:var(--pri)} .prit{color:var(--pri)}
+.btn{background:var(--pri);color:#fff;padding:.6rem 1.2rem;border-radius:.6rem;font-weight:600;cursor:pointer;border:none}
+.btn:hover{opacity:.9} .btn2{background:var(--acc);color:#111;padding:.6rem 1.2rem;border-radius:.6rem;font-weight:600;cursor:pointer;border:none}
+.btn:disabled,.btn2:disabled{opacity:.45;cursor:not-allowed}
+input,select,textarea{border:1.5px solid #cbd5e1;border-radius:.55rem;padding:.55rem .7rem;width:100%;background:#fff;color:#0f172a}
+input[type=file]{padding:.45rem .6rem} input[type=range]{padding:0} input[type=checkbox],input[type=radio]{width:auto}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--pri);border-color:transparent}
+label{font-size:.83rem;font-weight:600;display:block;margin-bottom:.3rem}
+.card{background:#fff;border-radius:1rem;box-shadow:0 8px 30px rgba(15,23,42,.08);padding:1.4rem}
+article p{margin:.7rem 0;line-height:1.75;color:#334155}
+article h2{font-size:1.45rem;font-weight:800;margin:1.6rem 0 .4rem;color:#0f172a}
+.faq{background:#fff;border-radius:.7rem;padding:.9rem 1.1rem;margin:.55rem 0;box-shadow:0 2px 10px rgba(15,23,42,.05)}
+.faq summary{font-weight:700;cursor:pointer}
+table.dt{width:100%;border-collapse:collapse} table.dt th,table.dt td{border:1px solid #e2e8f0;padding:.45rem .6rem;text-align:left;font-size:.9rem}
+table.dt th{background:#f1f5f9}
+.drop{border:2px dashed #94a3b8;border-radius:.8rem;padding:1.1rem;text-align:center;background:#f8fafc}
+canvas.prev{max-width:100%;border:1px solid #e2e8f0;border-radius:.5rem;background:#fff}
+
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Redactly", "url": "https://redactly.fixoraa.tech/", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": "Free true-redaction tool for PDFs. Draw black boxes over sensitive content and the pages are re-rendered, so the hidden text is genuinely gone \u2014 with a verify mode to prove it."}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How is this different from drawing a black box in a PDF editor?", "acceptedAnswer": {"@type": "Answer", "text": "Editor boxes are annotations floating over intact text \u2014 anyone can copy the words from underneath. Redactly re-renders each page with your boxes burned in, so the covered content does not exist anywhere in the output file."}}, {"@type": "Question", "name": "How can I be sure the text is really gone?", "acceptedAnswer": {"@type": "Answer", "text": "Use Verify mode: it attempts text extraction on your redacted output, exactly as an adversary would. Because pages are rendered images, extraction finds nothing beneath the boxes \u2014 the proof is shown to you live."}}, {"@type": "Question", "name": "Is text still selectable in the redacted PDF?", "acceptedAnswer": {"@type": "Answer", "text": "No \u2014 pages become high-quality images, which is the mechanism that guarantees removal. Recipients can read and print normally; keep your original (securely) if you need the text layer."}}, {"@type": "Question", "name": "What should I remember to redact besides names?", "acceptedAnswer": {"@type": "Answer", "text": "Account and ID numbers, contact details, signatures, QR codes and barcodes, faces and plates in images, identifying figure combinations, and content in headers and footers on every page \u2014 not only page one."}}, {"@type": "Question", "name": "Does redaction remove document metadata?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The output is built fresh from rendered pages, so original metadata, hidden layers and embedded text do not carry over into the redacted file."}}, {"@type": "Question", "name": "Is my unredacted document uploaded anywhere?", "acceptedAnswer": {"@type": "Answer", "text": "Never \u2014 that is the point of the design. The sensitive original is processed only in your browser and never leaves your device."}}]}</script>
+</head>
+<body id="top">
+<header class="sticky top-0 z-40 shadow-md" style="background:#030712">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-3 flex items-center justify-between">
+    <a href="#top" class="text-xl font-extrabold tracking-tight" style="color:#F9FAFB">⬛ Redactly</a>
+    <nav class="flex gap-5 text-sm font-semibold" style="color:#F9FAFB">
+      <a href="#top" class="hover:underline">Home</a>
+      <a href="https://fixoraa.tech" class="hover:underline">More Tools</a>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="mx-auto max-w-6xl px-4 sm:px-6 py-8">
+  <div class="text-center mb-6">
+    <h1 class="text-3xl sm:text-4xl font-extrabold" style="color:#0f172a">Redact a PDF — Black Out Text Permanently</h1>
+    <p class="mt-2 text-slate-600 max-w-2xl mx-auto">Drawing a black box over text in an editor does NOT remove it — the words stay underneath, copyable by anyone. Redactly does redaction properly: your boxes are burned into re-rendered pages, so what is covered is gone for good.</p>
+    <span class="inline-block mt-3 px-3 py-1 rounded-full text-xs font-bold text-white pri">✓ Unlimited Free Usage — No Signup, No Watermark</span>
+    <p class="mt-2 text-xs text-slate-500">🔒 100% private: your file is processed entirely in your browser and never uploaded to any server.</p>
+  </div>
+  <div class="grid md:grid-cols-5 gap-6">
+  <div class="card md:col-span-3">
+    <div class="drop"><label>Your PDF</label><input id="file" type="file" accept="application/pdf"></div>
+    <div class="flex gap-2 items-end mt-3 flex-wrap"><div><label>Page</label><input id="pnum" type="number" value="1" min="1" style="width:90px"></div><button class="btn2" onclick="loadPage()">Show page</button><button class="btn2" onclick="undoBox()">↩ Undo box</button><button class="btn2" onclick="clearBoxes()">Clear page boxes</button></div>
+    <div style="position:relative;margin-top:10px"><canvas id="cv" class="prev" width="700" height="900"></canvas></div>
+    <p class="text-xs text-slate-500 mt-1">Drag on the page to draw redaction boxes. Add as many as the page needs, on as many pages as needed — then build the redacted PDF.</p>
+  </div>
+  <div class="card md:col-span-2 space-y-3">
+    <div id="boxlist" class="text-sm text-slate-600">No boxes yet.</div>
+    <button class="btn w-full" id="go" onclick="run()">Build Redacted PDF</button>
+    <button class="btn2 w-full" onclick="verify()">✔ Verify mode: extract text from redacted output</button>
+    <button class="btn2 w-full" id="dl" style="display:none">⬇ Download redacted PDF</button>
+    <p id="status" class="text-sm font-semibold"></p>
+    <textarea id="vout" rows="6" placeholder="Verify output: text extracted from the redacted file appears here. Redacted content should be absent — because the pages are images now, extraction returns little or nothing, which is the proof."></textarea>
+  </div></div>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script async src="https://js.wpadmngr.com/static/adManager.js" data-admpid="464498"></script>
+    </div>
+  </div>
+</div>
+<section class="mx-auto max-w-4xl px-4 sm:px-6 pb-6">
+  <article>
+  <h2>The black-box lie that keeps embarrassing professionals</h2>
+<p>Every few months another organisation learns this publicly: a legal filing, a report, a manifesto 'redacted' by drawing black rectangles in a PDF editor is released — and within hours, someone copies the text from beneath the boxes and publishes what was hidden. The rectangles were annotations floating over the content; the content itself, fully intact, travelled with the file. True redaction is not covering — it is removal. The sensitive content must cease to exist in the file, in every layer: text, metadata and structure.</p>
+<p>Redactly performs the honest version. You mark regions on each page, and the tool re-renders every page into a fresh document with your boxes burned into the page image itself. In the output file there is no text layer under the black at all — the pages are pictures, and a picture of a black box contains a black box, not a secret. The verify mode then proves it in the only convincing way: it attempts text extraction on your redacted output, live, and shows you what an adversary would find.</p>
+<h2>Why re-rendering is the consumer-grade gold standard</h2>
+<p>Industrial redaction systems rewrite a PDF's content streams surgically, excising the characters and glyphs in the marked regions. Done perfectly, that preserves selectable text elsewhere. Done imperfectly — and the history of failures says imperfectly is common — fragments survive: a word split across operations, text stored twice, a thumbnail rendering cached in the file. Re-rendering trades away text selectability for a guarantee a non-specialist can verify: nothing that was on the page survives except what the rendered image shows.</p>
+<p>For the redaction jobs ordinary people and small organisations actually face — a statement for a dispute, a contract for publication, records for a freedom-of-information release, screenshots and scans for a report — that trade is correct. The recipient needs to read the document, not mine its text layer; and you need certainty, demonstrable with the verify button, that the salary figure, the account number, the name, the address are not lurking underneath. Certainty beats elegance when the content is sensitive.</p>
+<h2>How to redact a PDF, step by step</h2>
+<p>Load the document and take page one slowly. Drag a box over each sensitive item — and be generous: cover the whole field including its edges, because descenders, punctuation and the last digit of a number love to peek from under a tight box. Work page by page with the page selector; the box counter tracks your coverage per page so nothing is half-done. Names hide in headers, footers, signatures, ID numbers in margins and file paths in print footers — check the furniture of every page, not just its body.</p>
+<p>Press Build and the redacted copy is rendered at high resolution. Before you send it anywhere, press Verify: the tool attempts extraction on the output and shows the result. Then do the human check — open the redacted file and look at every page once, because redaction failures are ultimately visual: the box that missed the second line of an address, the total that appears again in a summary on page nine. Redact the document you have, not the one you remember.</p>
+<h2>What to hunt for: a field guide to hiding places</h2>
+<p>Direct identifiers are the obvious quarry — names, emails, phone numbers, account and ID numbers, addresses, dates of birth, signatures. Then hunt the second order: figures that identify by combination, such as an exact salary plus a job title in a small team; case numbers that unlock other systems; QR codes and barcodes, which are machine-readable identifiers people forget are content; photographs of faces and number plates; and the document's own metadata, which this tool's re-render discards entirely, since the output is built fresh from page images.</p>
+<p>Context creates a third order: if the surrounding text says 'the complainant, a 34-year-old nurse from…' you may need to redact descriptors, not only names. Redaction is an editorial act with legal consequences, and the tool's role is to make the removal technically certain — deciding what must be removed remains your responsibility, ideally against whatever disclosure rules govern your situation. When in doubt, redact wider and check the governing guidance; over-redaction embarrasses no one.</p>
+<h2>Redaction versus its lookalikes</h2>
+<p>Three operations wear similar clothes. Annotation — drawing boxes in an editor — hides nothing and must never be trusted. Cropping trims a page's visible area but keeps the full content beneath the crop box, retrievable by anyone who resets it. Watermarking declares ownership while leaving content readable by design. Redactly's re-render is none of these: it destroys the underlying representation and substitutes a picture of the result. Knowing which operation a tool performs — by asking what an extraction attempt would find — is the entire literacy of safe disclosure.</p>
+<p>That is why the verify mode is not a garnish. Run it on any tool's output, including this one's, before a sensitive release: extract the text, search for the strings you meant to kill — the name, the number, a distinctive word — and confirm their absence. A redaction you have not verified is a hope; a redaction you have verified, with the method shown, is a fact you can sign under.</p>
+<h2>Privacy: redaction material never leaves the room</h2>
+<p>Consider what an upload-based redactor receives: the unredacted document — the single most sensitive version of the file that will ever exist. Redactly's architecture avoids that paradox entirely. Your original is rendered and boxed inside your browser tab; the redacted output is generated on your device; nothing is transmitted, so there is no server copy of the pre-redaction file to breach, subpoena or mishandle.</p>
+<p>Handle your own copies with the same discipline: the original remains sensitive forever — store it as you would the secret itself, distribute only the verified redacted copy, and never 'helpfully' send both. The tool guarantees the technical half of redaction. The procedural half — one file, the right file, to the right people — is yours, and it is the half that most real-world failures actually fail on.</p>
+  <h2>Frequently Asked Questions</h2>
+  <details class="faq"><summary>How is this different from drawing a black box in a PDF editor?</summary><p>Editor boxes are annotations floating over intact text — anyone can copy the words from underneath. Redactly re-renders each page with your boxes burned in, so the covered content does not exist anywhere in the output file.</p></details>
+<details class="faq"><summary>How can I be sure the text is really gone?</summary><p>Use Verify mode: it attempts text extraction on your redacted output, exactly as an adversary would. Because pages are rendered images, extraction finds nothing beneath the boxes — the proof is shown to you live.</p></details>
+<details class="faq"><summary>Is text still selectable in the redacted PDF?</summary><p>No — pages become high-quality images, which is the mechanism that guarantees removal. Recipients can read and print normally; keep your original (securely) if you need the text layer.</p></details>
+<details class="faq"><summary>What should I remember to redact besides names?</summary><p>Account and ID numbers, contact details, signatures, QR codes and barcodes, faces and plates in images, identifying figure combinations, and content in headers and footers on every page — not only page one.</p></details>
+<details class="faq"><summary>Does redaction remove document metadata?</summary><p>Yes. The output is built fresh from rendered pages, so original metadata, hidden layers and embedded text do not carry over into the redacted file.</p></details>
+<details class="faq"><summary>Is my unredacted document uploaded anywhere?</summary><p>Never — that is the point of the design. The sensitive original is processed only in your browser and never leaves your device.</p></details>
+  </article>
+</section>
+<footer class="mt-6 py-8" style="background:#030712;color:#F9FAFB">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 text-center text-sm">
+    <p class="font-bold text-base">Redactly</p>
+    <p class="opacity-80 mt-1">Free true-redaction tool for PDFs. Draw black boxes over sensitive content and the pages are re-rendered, so the hidden text is genuinely gone — with a verify mode to prove it.</p>
+    <p class="mt-2"><a href="#top" class="underline">Home</a> · <a href="https://fixoraa.tech" class="underline">More Tools</a></p>
+    <p class="fx-credit" style="text-align:center;font-size:12.5px;opacity:.62;margin:10px auto 2px;letter-spacing:.01em">Made by <a href="https://fixoraa.tech" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px">Fixoraa</a></p>
+  </div>
+</footer>
+<script>
+
+const $=id=>document.getElementById(id);
+function fmtBytes(b){if(b===0)return '0 B';const k=1024,s=['B','KB','MB','GB'];const i=Math.floor(Math.log(b)/Math.log(k));return (b/Math.pow(k,i)).toFixed(i?1:0)+' '+s[i];}
+function setStatus(m,ok){const el=$('status');if(!el)return;el.textContent=m;el.style.color=ok===false?'#dc2626':'inherit';}
+function download(bytes,name,type){const blob=bytes instanceof Blob?bytes:new Blob([bytes],{type:type||'application/pdf'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},800);}
+async function readFile(input){const f=input.files&&input.files[0];if(!f)throw new Error('Please choose a PDF file first.');return {file:f,buf:await f.arrayBuffer()};}
+function showDl(id,bytes,name){const b=$(id);b.style.display='inline-block';b.onclick=()=>download(bytes,name);}
+
+
+let rdoc=null, boxes={}, curPage=1, drag=null;
+$('file').addEventListener('change',async()=>{ try{ const{buf}=await readFile($('file')); rdoc=await pdfjsLib.getDocument({data:buf}).promise; boxes={}; $('pnum').max=rdoc.numPages; loadPage(); setStatus('Loaded '+rdoc.numPages+' pages. Draw boxes over anything sensitive.'); }catch(e){ setStatus('⚠ '+(e.message||e),false);} });
+async function renderPage(scale){
+  const p=await rdoc.getPage(curPage); const vp=p.getViewport({scale:scale||1.15});
+  const cv=$('cv'); cv.width=vp.width; cv.height=vp.height;
+  const ctx=cv.getContext('2d'); ctx.fillStyle='#fff'; ctx.fillRect(0,0,cv.width,cv.height);
+  await p.render({canvasContext:ctx,viewport:vp}).promise;
+  ctx.fillStyle='#000';
+  (boxes[curPage]||[]).forEach(b=>{ ctx.fillRect(b.x*cv.width,b.y*cv.height,b.w*cv.width,b.h*cv.height); });
+  return cv;
+}
+async function loadPage(){ if(!rdoc) return; curPage=Math.min(rdoc.numPages,Math.max(1,parseInt($('pnum').value)||1)); await renderPage(); updList(); }
+function cvPos(e){ const r=$('cv').getBoundingClientRect(); const t=e.touches?e.touches[0]:e; return [(t.clientX-r.left)/r.width,(t.clientY-r.top)/r.height]; }
+$('cv').addEventListener('pointerdown',e=>{ if(!rdoc) return; drag=cvPos(e); });
+$('cv').addEventListener('pointerup',async e=>{ if(!drag||!rdoc) return; const [x2,y2]=cvPos(e); const x=Math.min(drag[0],x2), y=Math.min(drag[1],y2), w=Math.abs(x2-drag[0]), h=Math.abs(y2-drag[1]); drag=null; if(w<0.01||h<0.01) return; (boxes[curPage]=boxes[curPage]||[]).push({x,y,w,h}); await renderPage(); updList(); });
+function updList(){ const n=Object.values(boxes).reduce((a,b)=>a+b.length,0); $('boxlist').innerHTML='<b>'+n+' redaction box(es)</b> on '+Object.keys(boxes).length+' page(s): '+Object.keys(boxes).map(p=>'page '+p+' × '+boxes[p].length).join(', '); }
+function undoBox(){ if(boxes[curPage]&&boxes[curPage].length){ boxes[curPage].pop(); renderPage(); updList(); } }
+function clearBoxes(){ boxes[curPage]=[]; renderPage(); updList(); }
+let lastBytes=null;
+async function run(){
+  const btn=$('go'); btn.disabled=true;
+  try{
+    if(!rdoc) throw new Error('Load a PDF first.');
+    const total=Object.values(boxes).reduce((a,b)=>a+b.length,0);
+    if(!total) throw new Error('Draw at least one redaction box first.');
+    const out=await PDFLib.PDFDocument.create();
+    for(let i=1;i<=rdoc.numPages;i++){
+      const p=await rdoc.getPage(i); const vp=p.getViewport({scale:2});
+      const cv=document.createElement('canvas'); cv.width=vp.width; cv.height=vp.height;
+      const ctx=cv.getContext('2d'); ctx.fillStyle='#fff'; ctx.fillRect(0,0,cv.width,cv.height);
+      await p.render({canvasContext:ctx,viewport:vp}).promise;
+      ctx.fillStyle='#000'; (boxes[i]||[]).forEach(b=>{ ctx.fillRect(b.x*cv.width,b.y*cv.height,b.w*cv.width,b.h*cv.height); });
+      const jpg=await (await fetch(cv.toDataURL('image/jpeg',0.92))).arrayBuffer();
+      const img=await out.embedJpg(jpg);
+      const np=out.addPage([vp.width/2,vp.height/2]); np.drawImage(img,{x:0,y:0,width:vp.width/2,height:vp.height/2});
+      setStatus('Redacting page '+i+' of '+rdoc.numPages+'…');
+    }
+    lastBytes=await out.save();
+    showDl('dl',lastBytes,'redacted.pdf');
+    setStatus('Done ✔ Redacted copy built. The covered content no longer exists in this file — run Verify to prove it to yourself.');
+  }catch(e){ setStatus('⚠ '+(e.message||e),false); }
+  btn.disabled=false;
+}
+async function verify(){
+  if(!lastBytes){ setStatus('Build the redacted PDF first, then verify it.',false); return; }
+  const doc=await pdfjsLib.getDocument({data:lastBytes.slice(0)}).promise;
+  let txt='';
+  for(let i=1;i<=doc.numPages;i++){ const p=await doc.getPage(i); const tc=await p.getTextContent(); txt+=tc.items.map(x=>x.str).join(' ')+' '; }
+  $('vout').value=txt.trim()? txt.slice(0,2000) : '(No extractable text found in the redacted file — exactly right. The pages are rendered images with your boxes burned in, so the redacted words exist nowhere in the file.)';
+}
+
+</script>
+</body>
+</html>
